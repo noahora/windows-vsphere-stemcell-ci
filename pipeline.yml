@@ -1,0 +1,17 @@
+resources:
+- name: ci
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/cloudfoundry-community/windows-vsphere-stemcell-ci.git
+    paths: [tasks/*]
+
+- name: bosh-windows-stemcell-builder
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder.git
+
+
+
+

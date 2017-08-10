@@ -1,0 +1,33 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: starkandwayne/concourse
+
+inputs:
+  - name: ci
+#  - name: bosh-windows-stemcell-builder
+
+params:
+  VCENTER_SERVER:
+  VCENTER_USERNAME:
+  VCENTER_PASSWORD:
+  VCENTER_HOST:
+  VCENTER_VM_FOLDER:
+  BASE_TEMPLATE:
+  ADMINISTRATOR_PASSWORD:
+  PRODUCT_KEY:
+  OWNER:
+  ORGANIZATION:
+  OS_VERSION:
+  MEM_SIZE: 4096
+  NUM_VCPUS: 4
+  NEW_PASSWORD:
+  ENABLE_RDP:
+  ENABLE_KMS:
+  KMS_HOST:
+  
+run:
+  path: ci/tasks/create-vsphere-stemcell/task

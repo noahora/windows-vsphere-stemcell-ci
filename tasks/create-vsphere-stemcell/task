@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+basedir=$(dirname "$0")
+export STEMCELL_DEPS_DIR="$(pwd)/windows-stemcell-dependencies"
+
+# just git clone for testing task in isolation
+git clone https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder.git
+
+pushd bosh-windows-stemcell-builder
+
+gem install bundler --no-document
+bundle install
+
+popd
+
+# Packer
+curl -L -O -J https://releases.hashicorp.com/packer/1.0.3/packer_1.0.3_linux_amd64.zip
+unzip packer*.zip
+rm packer*.zip
+
+curl -L -O -J https://github.com/jetbrains-infra/packer-builder-vsphere/releases/download/v1.3/packer-builder-vsphere.linux
+
+chmod +x packer*
+
+# LGPO
+curl -L -O -J https://msdnshared.blob.core.windows.net/media/2016/09/LGPOv2-PRE-RELEASE.zip
+unzip LGPO*.zip
+
+mkdir -p ${STEMCELL_DEPS_DIR}/lgpo
+mv LGPO.exe ${STEMCELL_DEPS_DIR}/lgpo/
+
+ruby ci/tasks/create-vsphere-stemcell/create-vsphere-stemcell.rb "$(pwd)/bosh-windows-stemcell-builder/lib"
