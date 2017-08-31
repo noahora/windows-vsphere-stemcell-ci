@@ -58,6 +58,11 @@ mv OpenSSH-Win64.zip ../sshd/
 
 ruby ci/tasks/create-vsphere-stemcell/create-vsphere-stemcell.rb "$(pwd)/bosh-windows-stemcell-builder/lib"
 
+#GOVC
+curl -L -O -J https://github.com/vmware/govmomi/releases/download/v0.15.0/govc_linux_amd64.gz
+chmod +x govc*
+cp govc* /usr/local/bin/govc
+
 export GOVC_URL=$VCENTER_SERVER
 export GOVC_USERNAME=$VCENTER_USERNAME
 export GOVC_PASSWORD=$VCENTER_PASSWORD
