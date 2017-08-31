@@ -43,11 +43,11 @@ mv stembuild* /usr/local/bin/stembuild
 
 # Bosh Modules
 
-mkdir -p build
-pushd build
-  curl -L -O -J https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/releases/download/1200.2/bosh-psmodules.zip
-  curl -L -O -J https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/releases/download/1200.2/agent.zip
-popd
+# mkdir -p build
+# pushd build
+#   curl -L -O -J https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/releases/download/1200.2/bosh-psmodules.zip
+#   curl -L -O -J https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/releases/download/1200.2/agent.zip
+# popd
 
 mkdir -p scripts
 cp -R bosh-windows-stemcell-builder/scripts/* scripts/
