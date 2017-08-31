@@ -1,0 +1,22 @@
+---
+meta:
+  name: windows-stemcells
+  target: sw
+  url: https://ci.starkandwayne.com
+
+  vcenter:
+    username: (( vault "secret/pipelines/windows-stemcells/vcenter:username" ))
+    password: (( vault "secret/pipelines/windows-stemcells/vcenter:password" ))
+
+  github:
+    owner: rkoster
+    repo:  windows-vsphere-stemcell-ci
+    private_key:  (( vault "secret/pipelines/windows-stemcells/github:private" ))
+    access_token: (( vault "secret/pipelines/windows-stemcells/github:token" ))
+
+  aws:
+    access_key_id: (( vault "secret/pipelines/windows-stemcells/aws:access_key_id" ))
+    secret_access_key: (( vault "secret/pipelines/windows-stemcells/aws:secret_access_key_id" ))
+
+  windows:
+    product_key: (( vault "secret/pipelines/windows-stemcells/windows:product_key" ))

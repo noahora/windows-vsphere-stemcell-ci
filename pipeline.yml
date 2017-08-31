@@ -1,9 +1,70 @@
+meta:
+  name:     (( param "Please name your pipeline" ))
+  target:   (( param "Please identify the name of the target Concourse CI" ))
+  pipeline: windows-stemcells
+
+  vcenter:
+    username: (( param "Please specify the username used for vCenter" ))
+    password: (( param "Please specify the password used for vCenter" ))
+
+  aws:
+    access_key_id: (( param "Please provide your aws access key to access the compiled releases s3 bucket"  ))
+    secret_access_key: (( param "Please provide your aws secret access key to access the compiled releases s3 bucket"  ))
+
+  github:
+    uri:          (( concat "git@github.com:" meta.github.owner "/" meta.github.repo ))
+    owner:        (( param "Please specify the name of the user / organization that owns the Github repository" ))
+    repo:         (( param "Please specify the name of the Github repository" ))
+    branch:       master
+    private_key:  (( param "Please generate an SSH Deployment Key for this repo and specify it here" ))
+    access_token: (( param "Please generate a Personal Access Token and specify it here" ))
+
+  windows:
+    product_key: (( param "Please fill in your windows product_key"))
+
+jobs:
+  - name: build-windows-stemcell
+    public: true
+    serial: true
+    plan:
+      - do:
+        - aggregate:
+          - { get: ci }
+          - { get: bosh-windows-stemcell-builder }
+          - { get: build }
+        - task: create-windows-stemcell
+          file: ci/tasks/create-vsphere-stemcell/task.yml
+          privileged: true
+          params:
+            ARGS: --cpi vsphere --lite
+            VARS:
+              VCENTER_SERVER: 10.58.111.2
+              VCENTER_USERNAME: (( grab meta.vcenter.username ))
+              VCENTER_PASSWORD: (( grab meta.vcenter.password ))
+              VCENTER_HOST: cluster1
+              VCENTER_VM_FOLDER: windows_stemcell_pipeline
+              BASE_TEMPLATE: windows_2012_r2_base
+              ADMINISTRATOR_PASSWORD: c1oudc0w!
+              PRODUCT_KEY: ((grab meta.windows.product_key ))
+              OWNER: foo
+              ORGANIZATION: bar
+              OS_VERSION: windows2012R2
+              MEM_SIZE: 4096
+              NUM_VCPUS: 4
+              NEW_PASSWORD:
+              ENABLE_RDP: true
+              ENABLE_KMS: false
+        - aggregate:
+          - try:
+              put: relese-windows-stemcell
+              params: { file: "/root/packer-vmx/bosh-stemcell*.tgz", acl: public-read }
+
 resources:
 - name: ci
   type: git
   source:
     branch: master
-    uri: https://github.com/cloudfoundry-community/windows-vsphere-stemcell-ci.git
+    uri: https://github.com/rkoster/windows-vsphere-stemcell-ci.git
     paths: [tasks/*]
 
 - name: bosh-windows-stemcell-builder
@@ -12,6 +73,18 @@ resources:
     branch: master
     uri: https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder.git
 
+- name: relese-windows-stemcell
+  type: s3
+  source:
+    bucket: "windows2012-stemcells"
+    access_key_id: (( grab meta.aws.access_key_id ))
+    secret_access_key: (( grab meta.aws.secret_access_key ))
+    region_name: eu-west-1
 
-
-
+# p_modueles and agent and place it into build dir
+- name: build
+  type: github-release
+  source:
+    user: cloudfoundry-incubator
+    repository: bosh-windows-stemcell-builder
+    access_token: (( grab meta.github.access_token ))

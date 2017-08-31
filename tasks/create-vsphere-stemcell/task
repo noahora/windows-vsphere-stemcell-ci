@@ -2,9 +2,10 @@
 
 basedir=$(dirname "$0")
 export STEMCELL_DEPS_DIR="$(pwd)/windows-stemcell-dependencies"
+export PACKER_LOG=10
 
 # just git clone for testing task in isolation
-git clone https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder.git
+# git clone https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder.git
 
 pushd bosh-windows-stemcell-builder
 
@@ -14,13 +15,19 @@ bundle install
 popd
 
 # Packer
-curl -L -O -J https://releases.hashicorp.com/packer/1.0.3/packer_1.0.3_linux_amd64.zip
+curl -L -O -J https://releases.hashicorp.com/packer/1.0.4/packer_1.0.4_linux_amd64.zip
 unzip packer*.zip
 rm packer*.zip
 
-curl -L -O -J https://github.com/jetbrains-infra/packer-builder-vsphere/releases/download/v1.3/packer-builder-vsphere.linux
+curl -L -O -J https://github.com/jetbrains-infra/packer-builder-vsphere/releases/download/v.1.3.1.dev1/packer-builder-vsphere.linux
 
 chmod +x packer*
+cp packer* /usr/local/bin/
+
+# retrieved from personal dropbox - should be moved to s3
+curl -L -O -J https://www.dropbox.com/s/xurki8tatlxi6k5/VMware-ovftool-4.2.0-5965791-lin.x86_64.bundle?dl=0
+chmod +x VMware-ovftool-4.2.0-5965791-lin.x86_64.bundle
+./VMware-ovftool-4.2.0-5965791-lin.x86_64.bundle --eulas-agreed --required
 
 # LGPO
 curl -L -O -J https://msdnshared.blob.core.windows.net/media/2016/09/LGPOv2-PRE-RELEASE.zip
@@ -29,4 +36,30 @@ unzip LGPO*.zip
 mkdir -p ${STEMCELL_DEPS_DIR}/lgpo
 mv LGPO.exe ${STEMCELL_DEPS_DIR}/lgpo/
 
+# stembuild
+curl -L -O -J https://github.com/pivotal-cf-experimental/stembuild/releases/download/0.7/stembuild_linux_amd64
+chmod +x stembuild*
+mv stembuild* /usr/local/bin/stembuild
+
+# Bosh Modules
+
+mkdir -p build
+pushd build
+  curl -L -O -J https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/releases/download/1200.2/bosh-psmodules.zip
+  curl -L -O -J https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/releases/download/1200.2/agent.zip
+popd
+
+mkdir -p scripts
+cp -R bosh-windows-stemcell-builder/scripts/* scripts/
+
+mkdir -p ../sshd
+curl -L -O -J https://github.com/PowerShell/Win32-OpenSSH/releases/download/v0.0.18.0/OpenSSH-Win64.zip
+mv OpenSSH-Win64.zip ../sshd/
+
 ruby ci/tasks/create-vsphere-stemcell/create-vsphere-stemcell.rb "$(pwd)/bosh-windows-stemcell-builder/lib"
+
+export GOVC_URL=$VCENTER_SERVER
+export GOVC_USERNAME=$VCENTER_USERNAME
+export GOVC_PASSWORD=$VCENTER_PASSWORD
+export GOVC_INSECURE=true
+govc vm.destroy packer-vmx

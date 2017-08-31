@@ -8,7 +8,7 @@ image_resource:
 
 inputs:
   - name: ci
-#  - name: bosh-windows-stemcell-builder
+  - name: bosh-windows-stemcell-builder
 
 params:
   VCENTER_SERVER:
@@ -28,6 +28,6 @@ params:
   ENABLE_RDP:
   ENABLE_KMS:
   KMS_HOST:
-  
+
 run:
   path: ci/tasks/create-vsphere-stemcell/task
