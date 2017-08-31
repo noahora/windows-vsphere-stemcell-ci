@@ -33,11 +33,10 @@ jobs:
           - { get: bosh-windows-stemcell-builder }
           - { get: build }
         - task: create-windows-stemcell
+          tags: [ xl ]
           file: ci/tasks/create-vsphere-stemcell/task.yml
           privileged: true
           params:
-            ARGS: --cpi vsphere --lite
-            VARS:
               VCENTER_SERVER: 10.58.111.2
               VCENTER_USERNAME: (( grab meta.vcenter.username ))
               VCENTER_PASSWORD: (( grab meta.vcenter.password ))
@@ -63,8 +62,9 @@ resources:
 - name: ci
   type: git
   source:
-    branch: master
-    uri: https://github.com/rkoster/windows-vsphere-stemcell-ci.git
+    branch: (( grab meta.github.branch ))
+    uri: (( grab meta.github.uri ))
+    private_key: (( grab meta.github.private_key ))
     paths: [tasks/*]
 
 - name: bosh-windows-stemcell-builder
