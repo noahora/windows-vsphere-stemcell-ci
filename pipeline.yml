@@ -29,9 +29,9 @@ jobs:
     plan:
       - do:
         - aggregate:
-          - { get: ci }
-          - { get: bosh-windows-stemcell-builder }
-          - { get: build }
+          - get: ci
+          - get: build
+          - get: bosh-windows-stemcell-builder
         - task: create-windows-stemcell
           tags: [ xl ]
           file: ci/tasks/create-vsphere-stemcell/task.yml
@@ -81,7 +81,7 @@ resources:
     secret_access_key: (( grab meta.aws.secret_access_key ))
     region_name: eu-west-1
 
-# p_modueles and agent and place it into build dir
+# pmodules and agent and place it into build dir
 - name: build
   type: github-release
   source:

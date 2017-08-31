@@ -9,6 +9,7 @@ image_resource:
 inputs:
   - name: ci
   - name: bosh-windows-stemcell-builder
+  - name: build
 
 params:
   VCENTER_SERVER:
