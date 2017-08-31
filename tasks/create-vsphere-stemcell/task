@@ -60,6 +60,7 @@ ruby ci/tasks/create-vsphere-stemcell/create-vsphere-stemcell.rb "$(pwd)/bosh-wi
 
 #GOVC
 curl -L -O -J https://github.com/vmware/govmomi/releases/download/v0.15.0/govc_linux_amd64.gz
+gunzip govc*
 chmod +x govc*
 cp govc* /usr/local/bin/govc
 
