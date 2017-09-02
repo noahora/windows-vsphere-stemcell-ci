@@ -56,7 +56,9 @@ jobs:
         - aggregate:
           - try:
               put: relese-windows-stemcell
-              params: { file: "/root/packer-vmx/bosh-stemcell*.tgz", acl: public-read }
+              params:
+                file: /home/*/packer-vmx/output/bosh-stemcell-*-vsphere-esxi-windows2012R2-go_agent.tgz
+                acl: public-read
 
 resources:
 - name: ci

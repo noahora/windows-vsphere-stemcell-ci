@@ -58,7 +58,7 @@ mv OpenSSH-Win64.zip ../sshd/
 
 ruby ci/tasks/create-vsphere-stemcell/create-vsphere-stemcell.rb "$(pwd)/bosh-windows-stemcell-builder/lib"
 
-ls -ln /root/packer-vmx/
+ls -ln /home/*/packer-vmx/output/
 
 #GOVC
 curl -L -O -J https://github.com/vmware/govmomi/releases/download/v0.15.0/govc_linux_amd64.gz
