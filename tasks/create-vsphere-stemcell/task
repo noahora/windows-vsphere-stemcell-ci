@@ -58,8 +58,6 @@ mv OpenSSH-Win64.zip ../sshd/
 
 ruby ci/tasks/create-vsphere-stemcell/create-vsphere-stemcell.rb "$(pwd)/bosh-windows-stemcell-builder/lib"
 
-ls -ln /tmp/build/*/packer-vmx/
-
 #GOVC
 curl -L -O -J https://github.com/vmware/govmomi/releases/download/v0.15.0/govc_linux_amd64.gz
 gunzip govc*
@@ -72,4 +70,6 @@ cp govc* /usr/local/bin/govc
 # export GOVC_INSECURE=true
 # govc vm.destroy packer-vmx
 
+# see https://github.com/pivotal-cf-experimental/stembuild/issues/2
 mv /root/packer-vmx/bosh-stemcell-*.tgz .
+ls -ln
