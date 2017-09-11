@@ -72,5 +72,5 @@ cp govc* /usr/local/bin/govc
 # export GOVC_INSECURE=true
 # govc vm.destroy packer-vmx
 
-mkdir -R packer-vmx
+mkdir -p packer-vmx
 mv /root/packer-vmx/*.tgz ./packer-vmx
