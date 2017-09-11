@@ -7,12 +7,12 @@ export PACKER_LOG=10
 # just git clone for testing task in isolation
 # git clone https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder.git
 
-# pushd bosh-windows-stemcell-builder
-#
-# gem install bundler --no-document
-# bundle install
-#
-# popd
+pushd bosh-windows-stemcell-builder
+
+gem install bundler --no-document
+bundle install
+
+popd
 
 # Packer
 curl -L -O -J https://releases.hashicorp.com/packer/1.0.4/packer_1.0.4_linux_amd64.zip
@@ -25,9 +25,9 @@ chmod +x packer*
 cp packer* /usr/local/bin/
 
 # retrieved from personal dropbox - should be moved to s3
-# curl -L -O -J https://www.dropbox.com/s/xurki8tatlxi6k5/VMware-ovftool-4.2.0-5965791-lin.x86_64.bundle?dl=0
-# chmod +x VMware-ovftool-4.2.0-5965791-lin.x86_64.bundle
-# ./VMware-ovftool-4.2.0-5965791-lin.x86_64.bundle --eulas-agreed --required
+curl -L -O -J https://www.dropbox.com/s/xurki8tatlxi6k5/VMware-ovftool-4.2.0-5965791-lin.x86_64.bundle?dl=0
+chmod +x VMware-ovftool-4.2.0-5965791-lin.x86_64.bundle
+./VMware-ovftool-4.2.0-5965791-lin.x86_64.bundle --eulas-agreed --required
 
 # LGPO
 curl -L -O -J https://msdnshared.blob.core.windows.net/media/2016/09/LGPOv2-PRE-RELEASE.zip
@@ -56,7 +56,7 @@ mkdir -p ../sshd
 curl -L -O -J https://github.com/PowerShell/Win32-OpenSSH/releases/download/v0.0.18.0/OpenSSH-Win64.zip
 mv OpenSSH-Win64.zip ../sshd/
 
-# ruby ci/tasks/create-vsphere-stemcell/create-vsphere-stemcell.rb "$(pwd)/bosh-windows-stemcell-builder/lib"
+ruby ci/tasks/create-vsphere-stemcell/create-vsphere-stemcell.rb "$(pwd)/bosh-windows-stemcell-builder/lib"
 
 #GOVC
 curl -L -O -J https://github.com/vmware/govmomi/releases/download/v0.15.0/govc_linux_amd64.gz

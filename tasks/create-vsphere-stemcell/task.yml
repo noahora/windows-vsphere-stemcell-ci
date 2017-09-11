@@ -11,6 +11,9 @@ inputs:
   - name: bosh-windows-stemcell-builder
   - name: build
 
+outputs:
+  - name: stemcell
+
 params:
   VCENTER_SERVER:
   VCENTER_USERNAME:
