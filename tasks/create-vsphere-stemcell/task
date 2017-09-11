@@ -56,7 +56,7 @@ mkdir -p ../sshd
 curl -L -O -J https://github.com/PowerShell/Win32-OpenSSH/releases/download/v0.0.18.0/OpenSSH-Win64.zip
 mv OpenSSH-Win64.zip ../sshd/
 
-ruby ci/tasks/create-vsphere-stemcell/create-vsphere-stemcell.rb "$(pwd)/bosh-windows-stemcell-builder/lib"
+# ruby ci/tasks/create-vsphere-stemcell/create-vsphere-stemcell.rb "$(pwd)/bosh-windows-stemcell-builder/lib"
 
 #GOVC
 curl -L -O -J https://github.com/vmware/govmomi/releases/download/v0.15.0/govc_linux_amd64.gz
