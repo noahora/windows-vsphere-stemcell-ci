@@ -71,5 +71,5 @@ cp govc* /usr/local/bin/govc
 # govc vm.destroy packer-vmx
 
 # see https://github.com/pivotal-cf-experimental/stembuild/issues/2
-mv /root/packer-vmx/bosh-stemcell-*.tgz .
+mv /root/packer-vmx/bosh-stemcell-*.tgz stemcell/
 ls -ln
