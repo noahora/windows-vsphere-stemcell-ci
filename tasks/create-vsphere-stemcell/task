@@ -57,6 +57,7 @@ export GOVC_URL=$VCENTER_SERVER
 export GOVC_USERNAME=$VCENTER_USERNAME
 export GOVC_PASSWORD=$VCENTER_PASSWORD
 export GOVC_INSECURE=true
+echo "removing temp stemcell vm"
 govc vm.destroy packer-vmx
 
 # see https://github.com/pivotal-cf-experimental/stembuild/issues/2
