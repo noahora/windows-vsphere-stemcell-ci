@@ -4,9 +4,6 @@ basedir=$(dirname "$0")
 export STEMCELL_DEPS_DIR="$(pwd)/windows-stemcell-dependencies"
 export PACKER_LOG=10
 
-# just git clone for testing task in isolation
-# git clone https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder.git
-
 pushd bosh-windows-stemcell-builder
 
 gem install bundler --no-document
@@ -41,14 +38,6 @@ curl -L -O -J https://github.com/pivotal-cf-experimental/stembuild/releases/down
 chmod +x stembuild*
 mv stembuild* /usr/local/bin/stembuild
 
-# Bosh Modules
-
-# mkdir -p build
-# pushd build
-#   curl -L -O -J https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/releases/download/1200.2/bosh-psmodules.zip
-#   curl -L -O -J https://github.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/releases/download/1200.2/agent.zip
-# popd
-
 mkdir -p scripts
 cp -R bosh-windows-stemcell-builder/scripts/* scripts/
 
@@ -64,12 +53,12 @@ gunzip govc*
 chmod +x govc*
 cp govc* /usr/local/bin/govc
 
-# export GOVC_URL=$VCENTER_SERVER
-# export GOVC_USERNAME=$VCENTER_USERNAME
-# export GOVC_PASSWORD=$VCENTER_PASSWORD
-# export GOVC_INSECURE=true
-# govc vm.destroy packer-vmx
+export GOVC_URL=$VCENTER_SERVER
+export GOVC_USERNAME=$VCENTER_USERNAME
+export GOVC_PASSWORD=$VCENTER_PASSWORD
+export GOVC_INSECURE=true
+govc vm.destroy packer-vmx
 
 # see https://github.com/pivotal-cf-experimental/stembuild/issues/2
+echo "moving stemcel this can take a while"
 mv /root/packer-vmx/bosh-stemcell-*.tgz stemcell/
-ls -ln

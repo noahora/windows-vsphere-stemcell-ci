@@ -32,6 +32,7 @@ params:
   ENABLE_RDP:
   ENABLE_KMS:
   KMS_HOST:
+  SKIP_WINDOWS_UPDATE: true
 
 run:
   path: ci/tasks/create-vsphere-stemcell/task

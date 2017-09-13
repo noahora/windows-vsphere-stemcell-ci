@@ -30,6 +30,7 @@ jobs:
       - do:
         - aggregate:
           - get: ci
+            trigger: true
           - get: build
           - get: bosh-windows-stemcell-builder
         - task: create-windows-stemcell
@@ -53,12 +54,11 @@ jobs:
               NEW_PASSWORD:
               ENABLE_RDP: true
               ENABLE_KMS: false
-        - aggregate:
-          - try:
-              put: relese-windows-stemcell
-              params:
-                file: /tmp/build/*/packer-vmx/output/bosh-stemcell-*-vsphere-esxi-windows2012R2-go_agent.tgz
-                acl: public-read
+              SKIP_WINDOWS_UPDATE: false
+        -  put: relese-windows-stemcell
+           params:
+             file: stemcell/bosh-stemcell-*.tgz
+             acl: public-read
 
 resources:
 - name: ci
@@ -82,6 +82,7 @@ resources:
     access_key_id: (( grab meta.aws.access_key_id ))
     secret_access_key: (( grab meta.aws.secret_access_key ))
     region_name: eu-west-1
+    regexp: "bosh-stemcell-(.)*.tgz"
 
 # pmodules and agent and place it into build dir
 - name: build
