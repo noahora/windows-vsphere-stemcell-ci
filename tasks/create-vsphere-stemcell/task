@@ -63,3 +63,4 @@ govc vm.destroy packer-vmx
 # see https://github.com/pivotal-cf-experimental/stembuild/issues/2
 echo "moving stemcel this can take a while"
 mv /root/packer-vmx/bosh-stemcell-*.tgz stemcell/
+echo "moving stemcell done"
