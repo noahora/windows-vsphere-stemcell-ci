@@ -9,7 +9,7 @@ meta:
     password: (( vault "secret/pipelines/windows-stemcells/vcenter:password" ))
 
   github:
-    owner: rkoster
+    owner: starkandwayne
     repo:  windows-vsphere-stemcell-ci
     private_key:  (( vault "secret/pipelines/windows-stemcells/github:private" ))
     access_token: (( vault "secret/pipelines/windows-stemcells/github:token" ))
