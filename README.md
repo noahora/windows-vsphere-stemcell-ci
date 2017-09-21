@@ -1,5 +1,5 @@
 # create windows template
-download windows 2012iso and install it
+download windows 2012 trial iso and install it on your vsphere enviorment
 you need to enable winrm (you can use this power script https://raw.githubusercontent.com/cloudfoundry-incubator/bosh-windows-stemcell-builder/master/bosh-psmodules/modules/BOSH.WinRM/BOSH.WinRM.psm1)
 
 or manually
@@ -10,6 +10,13 @@ have also set
 winrm set winrm/config/service '@{AllowUnencrypted="true"}'
 winrm set winrm/config/service/auth '@{Basic="true"}'
 winrm set winrm/config/client/auth '@{Basic="true"}'
+
+when done create a template of it
+now configure the pipeline.yml variables (or if you use vault use the settings.yml and repipe)
+
+dependencies:
+- concourse worker with at least 200GB (this is due to downloading allot of unnecessary  vsphere stuff)
+
 
 ISSUES:
 
