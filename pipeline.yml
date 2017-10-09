@@ -44,6 +44,7 @@ jobs:
               VCENTER_PASSWORD: (( grab meta.vcenter.password ))
               VCENTER_HOST: cluster1
               VCENTER_VM_FOLDER: windows_stemcell_pipeline
+              VCENTER_HOST_FOLDER: Interxion MAD2
               BASE_TEMPLATE: windows_2012_r2_base
               ADMINISTRATOR_PASSWORD: c1oudc0w!
               PRODUCT_KEY: ((grab meta.windows.product_key ))
