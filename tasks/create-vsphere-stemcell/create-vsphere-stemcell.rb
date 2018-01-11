@@ -93,7 +93,10 @@ vsphere = VSphere.new(
   enable_rdp: ENV['ENABLE_RDP'] ? (ENV['ENABLE_RDP'].downcase == 'true') : false,
   enable_kms: ENV['ENABLE_KMS'] ? (ENV['ENABLE_KMS'].downcase == 'true') : false,
   kms_host: ENV.fetch('KMS_HOST', ''),
-  skip_windows_update: ENV['SKIP_WINDOWS_UPDATE']
+  skip_windows_update: ENV['SKIP_WINDOWS_UPDATE'],
+  http_proxy: {},
+  https_proxy: {},
+  bypass_list: {}
 )
 
 vsphere.build
