@@ -48,7 +48,7 @@ class VSphere < Stemcell::Builder::VSphere
     server = Stemcell::Builder::validate_env('VCENTER_SERVER')
     oldusername = Stemcell::Builder::validate_env('VCENTER_USERNAME')
     oldpassword = Stemcell::Builder::validate_env('VCENTER_PASSWORD')
-    username = "#{oldusername.split('\')[0].strip}%5c#{oldusername.split('\')[1].strip}"
+    username = "#{oldusername.split('\')[0].strip}\%5c#{oldusername.split('\')[1].strip}"
     password = "#{oldpassword.split('$')[0].strip}\\\$"
     cmd = "ovftool --noSSLVerify --machineOutput \"vi://#{username}:#{password}@#{server}/#{host_folder}/vm/#{folder}/packer-vmx/\" #{$dir}/"
     puts cmd
