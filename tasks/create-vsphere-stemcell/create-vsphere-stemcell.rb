@@ -46,8 +46,10 @@ class VSphere < Stemcell::Builder::VSphere
     folder = Stemcell::Builder::validate_env('VCENTER_VM_FOLDER')
     host_folder = Stemcell::Builder::validate_env('VCENTER_HOST_FOLDER')
     server = Stemcell::Builder::validate_env('VCENTER_SERVER')
-    username = Stemcell::Builder::validate_env('VCENTER_USERNAME')
-    password = Stemcell::Builder::validate_env('VCENTER_PASSWORD')
+    oldusername = Stemcell::Builder::validate_env('VCENTER_USERNAME')
+    oldpassword = Stemcell::Builder::validate_env('VCENTER_PASSWORD')
+    username = "#{oldusername.split('\')[0].strip}%5c#{oldusername.split('\')[1].strip}"
+    password = "#{oldpassword.split('$')[0].strip}\\\$"
     cmd = "ovftool --noSSLVerify --machineOutput \"vi://#{username}:#{password}@#{server}/#{host_folder}/vm/#{folder}/packer-vmx/\" #{$dir}/"
     puts cmd
     Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
