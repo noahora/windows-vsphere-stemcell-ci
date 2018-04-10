@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -ex
 basedir=$(dirname "$0")
 export STEMCELL_DEPS_DIR="$(pwd)/windows-stemcell-dependencies"
 export PACKER_LOG=10
